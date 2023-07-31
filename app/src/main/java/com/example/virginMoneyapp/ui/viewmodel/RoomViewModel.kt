@@ -17,27 +17,23 @@ class RoomViewModel @Inject constructor
 
     (private val repo: Repo) : ViewModel() {
 
-
     private val listOfRoom = MutableStateFlow<List<RoomItemModel>>(emptyList())
 
     val rooms: StateFlow<List<RoomItemModel>> = listOfRoom
 
     init {
         fetchPeopleData()
-//        Log.d("MYTAG","${peoples.value.size}")
     }
 
-//    fun printsize(){
-//        Log.d("MYTAG","${listOfPeople.value.size}")
-//    }
+
 
 
     fun fetchPeopleData() {
         viewModelScope.launch {
             try {
-                val rooms = repo.getRoomsModel()
+                val roomsdata = repo.getRoomsModel()
 
-                listOfRoom.value = rooms
+                listOfRoom.value = roomsdata
 
             } catch (e: Exception) {
                 // Handle API error

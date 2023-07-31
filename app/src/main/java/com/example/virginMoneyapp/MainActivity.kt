@@ -30,11 +30,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             VirginMoneyAppTheme {
                 // A surface container using the 'background' color from the theme
+              viewModel.fetchPeopleData()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigator(viewModel, roomViewModel)
+
+
                 }
             }
         }
@@ -42,17 +45,20 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppNavigator(peopleViewModel: PeopleViewModel,roomViewModel: RoomViewModel) {
-
+fun AppNavigator(
+    peopleViewModel: PeopleViewModel,
+    roomViewModel: RoomViewModel
+) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
+    NavHost(navController, startDestination = "main") {
         composable("main") {
-            MainScreen(peopleViewModel,navController,roomViewModel) }
-            composable("detail/{personId}") { backStackEntry ->
-                DetailScreen(backStackEntry.arguments?.getString("personId") ?: "", peopleViewModel){
-                //  onBack = { navController.popBackStack() }
-                }
+            MainScreen(peopleViewModel, navController, roomViewModel)
+        }
+        composable("detail/{personId}") { backStackEntry ->
+            DetailScreen(backStackEntry.arguments?.getString("personId") ?: "", peopleViewModel) {
+                  navController.popBackStack()
+            }
 
 
         }

@@ -88,6 +88,8 @@ dependencies {
     //coil
     implementation ("io.coil-kt:coil-compose:2.4.0")
 
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
+
 
     //mockito
     testImplementation ("org.mockito:mockito-core:5.4.0")

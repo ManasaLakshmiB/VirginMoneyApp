@@ -22,6 +22,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,13 +35,13 @@ import com.example.virginMoneyapp.ui.viewmodel.PeopleViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-                 personId: String,
-                 viewModel: PeopleViewModel,
-                 onBack:() -> Unit
+    personId: String,
+    viewModel: PeopleViewModel,
+    onBack: () -> Unit
 
 ) {
-    val people by viewModel.peoples.collectAsState()
-    val person = people.find { it.id == personId }
+    val people by viewModel.liveData.observeAsState()
+    val person = people?.find { it.id == personId }
 
     Scaffold(
         topBar = {
@@ -54,27 +55,25 @@ fun DetailScreen(
                 }
             )
         }
-    ){
+    ) {
         Column(
-           horizontalAlignment = Alignment.CenterHorizontally,
-          // verticalArrangement = Arrangement.SpaceAround,
-           modifier = Modifier
-               .fillMaxSize()
-        ) {
-            AsyncImage(model = person?.avatar,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+        )
+        {
+            AsyncImage(
+                model = person?.avatar,
                 contentDescription = "person image",
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(5.dp)
                     .fillMaxWidth()
                     .heightIn(min = 200.dp, max = 300.dp)
-                )
+            )
             person?.let {
-                Text(text = "Id: ${person.id}")
-                Text(text = "Name: ${person.firstName}")
-                Text(text = "Email: ${person.email}")
-
-                //Text(text = it.firstName ?: "no name here", fontSize = 24.sp)
-
+                Text(text = "Id: ${person.id}", fontSize = 24.sp)
+                Text(text = "Name: ${person.firstName}", fontSize = 24.sp)
+                Text(text = "Email: ${person.email}", fontSize = 21.sp)
             }
         }
     }

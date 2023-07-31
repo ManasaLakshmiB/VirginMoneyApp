@@ -49,7 +49,7 @@ import com.exyte.animatednavbar.animation.balltrajectory.Parabolic
 fun MainScreen(
     peopleViewModel: PeopleViewModel,
     navController: NavController,
-    roomViewModel: RoomViewModel
+  roomViewModel: RoomViewModel
 
 ) {
     val navigationBarItems = remember { NavigationBarItems.values() }
@@ -88,11 +88,12 @@ fun MainScreen(
     {
         when (selectedIndex) {
             NavigationBarItems.PeopleList.ordinal -> {
-                PeopleList(peopleViewModel,navController)
+                PeopleList(peopleViewModel, navController)
             }
+
             NavigationBarItems.Rooms.ordinal -> {
                 // Show your Room screen here
-               Rooms(roomViewModel)
+                Rooms(roomViewModel)
             }
         }
     }

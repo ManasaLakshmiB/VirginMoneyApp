@@ -2,8 +2,10 @@ package com.example.virginMoneyapp.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,35 +31,36 @@ import com.example.virginMoneyapp.data.model.rooms.RoomItemModel
 import com.example.virginMoneyapp.ui.viewmodel.RoomViewModel
 
 @Composable
-fun Rooms(viewModel: RoomViewModel){
+fun Rooms(viewModel: RoomViewModel) {
 
     val room by viewModel.rooms.collectAsState()
 
-    LazyColumn { items(room){ roomslist->
-        Roomslist(roomslist)
-    }
+    LazyColumn {
+        items(room) { roomslist ->
+            Roomslist(roomslist)
+        }
     }
 }
 
 
-
 @Composable
-fun Roomslist(roomslist:RoomItemModel) {
+fun Roomslist(roomslist: RoomItemModel) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = roomslist.id ?: "no name here", fontSize = 24.sp)
-            Spacer(
-                modifier = Modifier
-                    .padding(5.dp)
-            )
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(14.dp)
+                .fillMaxSize()
+        )
+        {
+            Text(text = "Id: ${roomslist.id}", fontSize = 24.sp)
+            Text(text = "Occupency:${roomslist.maxOccupancy}", fontSize = 24.sp)
 
         }
+       }
     }
-}

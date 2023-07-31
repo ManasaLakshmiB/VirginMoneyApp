@@ -3,6 +3,7 @@ package com.example.virginMoneyapp.ui.viewmodel
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.virginMoneyapp.data.model.people.PeopleItemModel
@@ -20,16 +21,10 @@ class PeopleViewModel @Inject constructor
 
     (private val repo: Repo) : ViewModel() {
 
-    private val listOfPeople = MutableStateFlow<List<PeopleItemModel>>(emptyList())
 
-    val peoples: StateFlow<List<PeopleItemModel>> = listOfPeople
-
-    init {
-        fetchPeopleData()
-
+    val liveData : MutableLiveData<List<PeopleItemModel>> by lazy {
+        MutableLiveData<List<PeopleItemModel>>()
     }
-
-
 
 
     fun fetchPeopleData() {
@@ -37,7 +32,8 @@ class PeopleViewModel @Inject constructor
             try {
                 val peopleList = repo.getPeopleModel()
 
-                listOfPeople.value = peopleList
+
+                liveData.postValue(peopleList)
 
             } catch (e: Exception) {
                 // Handle API error

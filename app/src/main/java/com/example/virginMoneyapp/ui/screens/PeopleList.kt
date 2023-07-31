@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,22 +33,20 @@ import com.example.virginMoneyapp.ui.viewmodel.PeopleViewModel
 
 
 @Composable
-fun PeopleList(viewModel: PeopleViewModel,navController: NavController) {
+fun PeopleList(viewModel: PeopleViewModel, navController: NavController) {
 
 
-    val people by viewModel.peoples.collectAsState()
-
-  //  people.forEach { Log.d("PeopleList", "Person name: ${it.firstName}") }
+    val people by viewModel.liveData.observeAsState()
 
     LazyColumn {
-        items(people) { person ->
-            ContactCard(person,navController)
+        items(people.orEmpty()) { person ->
+            ContactCard(person, navController)
         }
     }
 }
 
 @Composable
-fun ContactCard(person: PeopleItemModel,navController: NavController) {
+fun ContactCard(person: PeopleItemModel, navController: NavController) {
 
     Log.d("ContactList", "Rendering person: ${person.firstName}")
 
@@ -55,7 +54,7 @@ fun ContactCard(person: PeopleItemModel,navController: NavController) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { navController.navigate("detail/${person.id}") },  // Note: This assumes that each person has a unique id
+            .clickable { navController.navigate("detail/${person.id}") },
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -74,7 +73,7 @@ fun ContactCard(person: PeopleItemModel,navController: NavController) {
             Text(text = person.firstName ?: "no name here", fontSize = 24.sp)
             Spacer(
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(2.dp)
             )
             Text(text = person.lastName ?: "no name here", fontSize = 24.sp)
         }
